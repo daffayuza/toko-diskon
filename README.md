@@ -10,7 +10,6 @@ package manager:
 ```sh
 cd toko-voucher
 
-# Node.js package manager
 npm install
 ```
 
