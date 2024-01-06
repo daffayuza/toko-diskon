@@ -14,7 +14,7 @@ const HomePage = () => {
       const response = await axios.post('/api/generate-voucher', { amount });
       setVoucher(response.data);
       setVoucherStatus(null);
-      setError(null); // Menghapus pesan error jika ada
+      setError(null);
     } catch (error) {
       console.error('Error generating voucher:', error);
       setError('Error generating voucher. Please try again.');
@@ -27,12 +27,11 @@ const HomePage = () => {
     if (voucher) {
       setVoucherStatus('Voucher telah digunakan');
   
-      // Set voucher status to 'sudah tidak aktif' after using the voucher
       setVoucher((prevVoucher) => ({
         ...prevVoucher,
-        expirationDate: new Date().toISOString(), // Set expirationDate to the current date
+        expirationDate: new Date().toISOString(),
       }));
-      setError(null); // Menghapus pesan error jika ada
+      setError(null);
     }
   };
   
@@ -47,11 +46,11 @@ const HomePage = () => {
         setVoucherStatus('Voucher sudah tidak aktif');
       }
     }
-    setError(null); // Menghapus pesan error jika ada
+    setError(null);
   };
 
   const handleAmountChange = (e) => {
-    const inputValue = e.target.value.replace(/^0+/, ''); // Remove leading zeros
+    const inputValue = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
     setAmount(parseInt(inputValue, 10) || 0);
   };
 
@@ -63,19 +62,27 @@ const HomePage = () => {
     }
   };
 
+  const formatIDR = (value) => {
+    const formatter = new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    });
+
+    return formatter.format(value);
+  };
+
   return (
     <div>
       <h1>Toko Diskon</h1>
       <label>
         Total Belanja :
-        <input type="tel" value={amount} onChange={handleAmountChange} style={{ marginLeft: '3px' }} />
+        <input type="tel" value={formatIDR(amount)} onChange={handleAmountChange} style={{ marginLeft: '3px' }} />
       </label>
       <div style={{ marginTop: '12px' }}>
         <button onClick={handleVoucherGeneration} disabled={loading}>
           {loading ? 'Generating Voucher...' : 'Generate Voucher'}
         </button>
-
-        {/* Button "Check Status Voucher" will always be displayed next to "Generate Voucher" */}
         <button style={{ marginLeft: '10px' }} onClick={checkVoucherStatus} disabled={!voucher || loading}>
           {loading ? 'Checking Status...' : 'Check Status Voucher'}
         </button>
@@ -85,10 +92,8 @@ const HomePage = () => {
         <div>
           <h2>Voucher <span style={{ color: 'red' }}> <u><i> Rp.10.000</i></u></span></h2>
           <p>Code : {voucher.code}</p>
-          <p>Amount : Rp. {voucher.amount}</p>
+          <p>Amount : {formatIDR(voucher.amount)}</p>
           <p>Expiration Date : {voucher.expirationDate}</p>
-
-          {/* Button "Use Voucher" will be displayed if there is a voucher */}
           <button style={{ marginTop: '10px' }} onClick={useVoucher} disabled={!voucher || loading}>
             {loading ? 'Using Voucher...' : 'Use Voucher'}
           </button>
