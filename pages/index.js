@@ -83,7 +83,7 @@ const HomePage = () => {
 
       {voucher && (
         <div>
-          <h2>Voucher</h2>
+          <h2>Voucher <span style={{ color: 'red' }}> <u><i> Rp.10.000</i></u></span></h2>
           <p>Code : {voucher.code}</p>
           <p>Amount : Rp. {voucher.amount}</p>
           <p>Expiration Date : {voucher.expirationDate}</p>
@@ -95,7 +95,7 @@ const HomePage = () => {
         </div>
       )}
 
-      {voucherStatus && <p style={{ color: voucherStatus.includes('digunakan') ? 'blue' : voucherStatus.includes('masih aktif') ? 'green' : 'red' }}>{voucherStatus}</p>}
+      {voucherStatus && <h4 style={{ color: voucherStatus.includes('digunakan') ? 'blue' : voucherStatus.includes('masih aktif') ? 'green' : 'red' }}>{voucherStatus}</h4>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
