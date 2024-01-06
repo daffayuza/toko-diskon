@@ -1,4 +1,3 @@
-// server/api/index.js
 const express = require('express');
 const db = require('../db');
 
