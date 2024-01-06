@@ -8,12 +8,12 @@ Open the directory and install the dependencies
 package manager:
 
 ```sh
-cd toko-voucher
+cd toko-diskon
 
 npm install
 ```
 
-then run this script :
+Then run this script :
 ```sh
 npm run start
 ```
